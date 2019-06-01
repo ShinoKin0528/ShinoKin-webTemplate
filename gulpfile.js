@@ -6,6 +6,7 @@ var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var mqpacker = require('css-mqpacker');
 var browserSync = require('browser-sync').create();
+var eslint = require('gulp-eslint');
 
 gulp.task('sass', done => {
   gulp
@@ -40,10 +41,18 @@ gulp.task('bs-reload', done => {
   done();
 });
 
+gulp.task('eslint', done => {
+  return gulp.src(['**/*.js', '!node_modules/**'])
+    .pipe(eslint({ useEslintrc: true })) // .eslintrc を参照
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
 gulp.task(
   'start',
   gulp.parallel('browser-sync', () => {
     gulp.watch('./sass/**/*.scss', gulp.parallel('sass'));
+    gulp.watch('./js/**/*.js', gulp.parallel('eslint'));
     gulp.watch('./**/*.html', gulp.parallel('bs-reload'));
     gulp.watch('./sass/**/*.scss', gulp.parallel('bs-reload'));
     gulp.watch('./js/**/*.js', gulp.parallel('bs-reload'));
