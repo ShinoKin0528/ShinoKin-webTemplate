@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/script.js"
+    "lint": "eslint js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "css-mqpacker": "^7.0.0",
     "eslint": "^5.16.0",
     "gulp": "^4.0.2",
+    "gulp-eslint": "^5.0.0",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
