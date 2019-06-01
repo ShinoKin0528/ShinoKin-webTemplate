@@ -8,25 +8,28 @@ var mqpacker = require('css-mqpacker');
 var browserSync = require('browser-sync').create();
 
 gulp.task('sass', done => {
-  gulp.src('./sass/**/*.scss', { sourcemaps: true })
-    .pipe(plumber({
-      errorHandler: notify.onError({
-        title: "Error!",
-        message: "<%= error.message %>"
+  gulp
+    .src('./sass/**/*.scss', { sourcemaps: true })
+    .pipe(
+      plumber({
+        errorHandler: notify.onError({
+          title: 'Error!',
+          message: '<%= error.message %>'
+        })
       })
-    }))
-    .pipe(sass({outputStyle: 'expanded'}))
+    )
+    .pipe(sass({ outputStyle: 'expanded' }))
     .pipe(postcss([mqpacker()]))
     .pipe(postcss([autoprefixer()]))
-    .pipe(gulp.dest('./css', {sourcemaps: '../sourcemaps' }));
+    .pipe(gulp.dest('./css', { sourcemaps: '../sourcemaps' }));
   done();
 });
 
 gulp.task('browser-sync', done => {
   browserSync.init({
     server: {
-      baseDir: "./",
-      index: "index.html"
+      baseDir: './',
+      index: 'index.html'
     }
   });
   done();
@@ -37,10 +40,12 @@ gulp.task('bs-reload', done => {
   done();
 });
 
-
-gulp.task('default', gulp.parallel(('browser-sync'), () => {
-  gulp.watch('./sass/**/*.scss', gulp.parallel('sass'));
-  gulp.watch('./**/*.html', gulp.parallel('bs-reload'));
-  gulp.watch('./sass/**/*.scss', gulp.parallel('bs-reload'));
-  gulp.watch('./js/**/*.js', gulp.parallel('bs-reload'));
-}));
+gulp.task(
+  'start',
+  gulp.parallel('browser-sync', () => {
+    gulp.watch('./sass/**/*.scss', gulp.parallel('sass'));
+    gulp.watch('./**/*.html', gulp.parallel('bs-reload'));
+    gulp.watch('./sass/**/*.scss', gulp.parallel('bs-reload'));
+    gulp.watch('./js/**/*.js', gulp.parallel('bs-reload'));
+  })
+);
