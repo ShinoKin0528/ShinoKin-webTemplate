@@ -42,7 +42,8 @@ gulp.task('bs-reload', done => {
 });
 
 gulp.task('eslint', done => {
-  return gulp.src(['**/*.js', '!node_modules/**'])
+  return gulp
+    .src(['**/*.js', '!node_modules/**'])
     .pipe(eslint({ useEslintrc: true })) // .eslintrc を参照
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
